@@ -11,19 +11,22 @@
 
 [[ -d "firefox/" ]] && echo "ERROR: subdirectory 'firefox/' already exists. Exiting." && exit 1
 
-JREFILES=$(\ls -1 jre*.tar.gz 2>/dev/null)
-if [[ -z "$JREFILES" ]]; then
+JREFILE=$(\ls -1 jre*.tar.gz 2>/dev/null | head -n 1)
+if [[ ! -s "$JREFILE" ]]; then
   echo "Download 'jre-...-linux-i586.tar.gz' from 'http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html'."
   echo "Please download file to '$(pwd)/'."
   echo "waiting..."
   echo ""
 
   which xdg-open >/dev/null && xdg-open "http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html" > /dev/null 2>&1 &
-  while [[ -z "$JREFILES" ]]; do
-    JREFILES=$(\ls -1 jre*.tar.gz 2>/dev/null)
+  while [[ ! -s "$JREFILE" ]]; do
+    JREFILE=$(\ls -1 jre*.tar.gz 2>/dev/null | head -n 1)
   done
-  if [[ -n "$JREFILES" ]]; then
+  if [[ -n "$JREFILE" ]]; then
     echo "Thanks, let's continue with installation...."
+  else
+    echo "Interrupted !?"
+    exit 2
   fi
 fi
 
