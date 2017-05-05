@@ -13,9 +13,12 @@
 
 JREFILES=$(\ls -1 jre*.tar.gz 2>/dev/null)
 if [[ -z "$JREFILES" ]]; then
-  which xdg-open 2>/dev/null && xdg-open "http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html"
   echo "Download 'jre-...-linux-i586.tar.gz' from 'http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html'."
-  echo "Please download file to '$(pwd)/'. waiting..."
+  echo "Please download file to '$(pwd)/'."
+  echo "waiting..."
+  echo ""
+
+  which xdg-open >/dev/null && xdg-open "http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html" > /dev/null 2>&1 &
   while [[ -z "$JREFILES" ]]; do
     JREFILES=$(\ls -1 jre*.tar.gz 2>/dev/null)
   done
