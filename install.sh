@@ -71,6 +71,7 @@ sed -i -e "s#/amd64/#/amd64.disabled/#" profile/pluginreg.dat
 # disable asking to become default browser
 
 echo ' user_pref("browser.shell.checkDefaultBrowser", false);' >> profile/prefs.js
+echo ' user_pref("plugin.state.java", 2);' >> profile/prefs.js
 
 cd ..
 
