@@ -33,6 +33,24 @@ fi
 # Version 52.0 already does not work with Java plugin
 wget -nc https://ftp.mozilla.org/pub/firefox/releases/51.0.1/linux-i686/en-US/firefox-51.0.1.tar.bz2
 
+# Do we have required i386 libraries installed:
+
+TESTLIBS=
+TESTLIBS=$(echo "$TESTLIBS" ; dpkg --list | grep "libgtk-3-0:i386" || echo "MISSING")
+TESTLIBS=$(echo "$TESTLIBS" ; dpkg --list | grep "libdbus-glib-1-2:i386" || echo "MISSING")
+TESTLIBS=$(echo "$TESTLIBS" ; dpkg --list | grep "libxtst6:i386" || echo "MISSING")
+
+TESTLIBS=$(echo "$TESTLIBS" | grep "MISSING")
+if [[ -n "$TESTLIBS" ]]; then
+  echo "Installing required i386 modules on Ubuntu... please enter your password to elevate with sudo to install required modules..."
+  sudo apt -y install libgtk-3-0:i386
+  sudo apt -y install libdbus-glib-1-2:i386
+  sudo apt -y install libxtst6:i386
+
+  echo "Removing sudo gathered privileges..."
+  sudo -k
+fi
+
 # Extract application and plugin
 
 tar -xvf firefox*.bz2
@@ -47,9 +65,6 @@ mkdir -p browser/plugins/
 cd browser/plugins/
 ln -s "$(pwd)/../../jre/lib/i386/libnpjp2.so" .
 cd ../../
-
-# sudo apt-get install libdbus-glib-1-2:i386
-# sudo apt-get install libxtst6:i386
 
 echo "\"$(pwd)/firefox\" --no-remote --profile \"$(pwd)/profile/\" > /dev/null 2>&1" > start.sh
 chmod +x start.sh
