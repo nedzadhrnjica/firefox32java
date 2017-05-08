@@ -33,6 +33,8 @@ fi
 # Version 52.0 already does not work with Java plugin
 wget -nc https://ftp.mozilla.org/pub/firefox/releases/51.0.1/linux-i686/en-US/firefox-51.0.1.tar.bz2
 
+# Extract application and plugin
+
 tar -xvf firefox*.bz2
 tar -xvf jre*.tar.gz
 
@@ -58,7 +60,7 @@ touch updates
 # local profile:
 mkdir profile/
 
-echo "wait...wait...preparing...preparing..."
+echo "wait...wait...I will open firefox, wait 5 seconds, and close it automatically... preparing...preparing..."
 ./firefox --no-remote --profile profile/ > /dev/null 2>&1 &
 MYPID=$!
 while [[ ! -f "profile/pluginreg.dat" ]]; do sleep 1; done
