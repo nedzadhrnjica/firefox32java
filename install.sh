@@ -66,7 +66,7 @@ cd browser/plugins/
 ln -s "$(pwd)/../../jre/lib/i386/libnpjp2.so" .
 cd ../../
 
-echo "\"$(pwd)/firefox\" --no-remote --profile \"$(pwd)/profile/\" > /dev/null 2>&1" > start.sh
+echo "\"$(pwd)/firefox\" --no-remote --profile \"$(pwd)/profile/\" \"\$@\" > /dev/null 2>&1" > start.sh
 chmod +x start.sh
 
 # disable updates (prevent from creating subdirectory 'updates/')
